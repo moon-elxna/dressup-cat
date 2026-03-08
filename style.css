@@ -1,13 +1,67 @@
 /*---font---*/
 
 /*--div---*/
-
-/*---img---*/
-img {
-    width: 256px;
+body{
+    background-color: red;
+}
+#content{
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    background-color: aqua;
+    padding: 24px;
 }
 
+#dressup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blueviolet;
+    padding: 24px;
+
+}
+
+#container{
+    position: relative;
+    background-color: brown;
+    width: 384px;
+    height: 384px;
+}
+
+.showcase{
+    display: flex;
+    flex-direction: row;
+}
+
+.showcase_img{
+    display: flex;
+    flex-direction: row;
+}
+/*---img---*/
+.dressup{
+    position: absolute;
+    width: 384px;
+    height: auto;
+}
+#accessories {
+    z-index: 40;
+}
+
+#top{
+    z-index: 30;
+}
+
+#bottom {
+    z-index: 20;
+}
+
+#body{
+    z-index: 10;
+}
 /*---btn---*/
+button {
+    height: 50px;
+}
 
 /*---media---*/
 @media(max-width: 700px){
