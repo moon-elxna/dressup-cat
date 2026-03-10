@@ -8,12 +8,11 @@ const arrow = ["right", "left"];
 const amount_showcase = 3;
 load_showcase_img();
 
-//---EventListeners---
 //all btns of showcase
 for(let i = 0; i < showcase.length; i++){
     for(let j = 0; j < arrow.length; j++){
         document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
-        .addEventListener("click", function(){showcase_elements_arrow_buttons(i, j)});
+            .addEventListener("click", function(){showcase_elements_arrow_buttons(i, j)});
     }
 }
 
@@ -25,12 +24,14 @@ function load_showcase_img(){
         build_showcase_current(i); //set min img to 0
         load_img(i, 0);
     }
+    //reads local storage for the dressup
+    read_localstorage();
     //builds up empty array
     function build_showcase_current(index){
         for(let i = 0; i < amount_showcase; i++){
             showcase[index].current.push(showcase[index].min + i)
         }
-    }   
+    } 
 }
 
 function showcase_elements_arrow_buttons(index, arrow){
@@ -78,21 +79,47 @@ function load_img(index, arrow){
     const div = document.getElementById("showcase_img_" + name);
     //loop through 3 images of an element
     for(let i = 0; i < amount_showcase; i++){
-        const num = String(current[i]);
+        const element_number = String(current[i]);
         //check if img does not exist, then add the image
-        if(document.getElementById(name + num) === null){ 
+        if(document.getElementById(name + element_number) === null){ 
             //create and append btn w image
             const btn = document.createElement("button");
-            btn.id = "btn_" + name + num; btn.className = "showcase_clothes";
+            btn.id = "btn_" + name + element_number; btn.className = "showcase_clothes";
             const img = document.createElement("img");
-            img.src = "assets/showcase/" + name + num + ".PNG"; img.alt = name;
-            img.id = name + num; img.className = "showcase_clothes";
+            img.src = "assets/showcase/" + name + element_number + ".PNG"; img.alt = name;
+            img.id = name + element_number; img.className = "showcase_clothes";
             if(arrow === 0){
                 btn.append(img); div.append(btn);
             }
             else{
                 btn.prepend(img); div.prepend(btn);
             }   
+            //Eventlistener
+            btn.addEventListener("click", function(){change_img(name, element_number)});
         }
     }
+}
+
+function change_img(name, index){
+    const source = "assets/dressup/" + name + String(index) + ".PNG";
+    document.getElementById(name).src = source;
+    write_localstorage(name, source);
+}
+
+function read_localstorage(){
+    for(let i = 0; i < showcase.length; i++){
+        const name = showcase[i].name;
+        const source = localStorage.getItem(name);
+        if(source != null){
+            document.getElementById(name).src = source;
+        }   
+        else{
+            document.getElementById(name).src = "assets/dressup/" + name + "0.PNG";
+            write_localstorage(name, source);
+        }
+    }
+}
+
+function write_localstorage(name, source){
+    localStorage.setItem(name, source);
 }
