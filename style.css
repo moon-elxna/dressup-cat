@@ -38,6 +38,15 @@ body{
     flex-direction: row;
 }
 /*---img---*/
+img.showcase_clothes{
+    width: 120px;
+
+}
+button.showcase_clothes{
+    width: fit-content ;
+    height: fit-content;
+
+}
 .dressup{
     position: absolute;
     width: 384px;

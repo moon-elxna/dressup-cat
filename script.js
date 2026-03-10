@@ -83,14 +83,10 @@ function load_img(index, arrow){
         if(document.getElementById(name + num) === null){ 
             //create and append btn w image
             const btn = document.createElement("button");
-            btn.id = "btn_" + name + num;
-            btn.style.width = "156px"; btn.style.height = "108px"; 
+            btn.id = "btn_" + name + num; btn.className = "showcase_clothes";
             const img = document.createElement("img");
-            img.src = "assets/showcase/" + name + num + ".PNG";
-            img.alt = name;
-            img.id = name + num;
-            img.style.width = btn.style.width; img.style.height = btn.style.heigh;
-            
+            img.src = "assets/showcase/" + name + num + ".PNG"; img.alt = name;
+            img.id = name + num; img.className = "showcase_clothes";
             if(arrow === 0){
                 btn.append(img); div.append(btn);
             }
