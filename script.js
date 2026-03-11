@@ -16,6 +16,7 @@ for(let i = 0; i < showcase.length; i++){
     }
 }
 document.getElementById("save").addEventListener("click", function(){save()});
+document.getElementById("share").addEventListener("click", function(){share()});
 
 //---functions---
 function load_game(){
@@ -25,15 +26,16 @@ function load_game(){
         //dressup images
         let element_number = localStorage.getItem(name);
         if(element_number != null){
+            showcase[i].current_item = element_number;
             document.getElementById(name).src = "assets/dressup/" + name + String(element_number) + ".PNG";
         }   
         else{
-            source = "assets/dressup/" + name + "0.PNG"
-            document.getElementById(name).src = source;
+            document.getElementById(name).src = "assets/dressup/" + name + "0.PNG";
+            showcase[i].current_item = 0;
             localStorage.setItem(name, 0);
         }
         //showcase images
-        const array = JSON.parse(localStorage.getItem(name + ".current"))
+        const array = JSON.parse(localStorage.getItem(name + "_current"))
         if(array != null){
             showcase[i].current = array;
         }
@@ -97,7 +99,7 @@ function showcase_arrow_btns(index, arrow){
         }
     }
     showcase[index].current = current;
-    localStorage.setItem(name +".current", JSON.stringify(current));
+    localStorage.setItem(name +"_current", JSON.stringify(current));
     load_img(index, arrow);
 }
 
@@ -155,8 +157,13 @@ function save(){
 }
 
 function share(){
-    let url = "https://moon-elxna.github.io/dressup-cat/"
-        + "?top=" +
-        + "&bottom=" +
-        + "&accessoires=" 
+    let url = "https://moon-elxna.github.io/dressup-cat/";
+    //add parameters to link, "?parameter=value&parameter=value ..."
+    for(let i = 0; i < showcase.length; i++){
+        let sign = "&"
+        if(i == 0){sign = "?";}
+        url = url + sign + showcase[i].name + "=" + showcase[i].current_item;
+    }
+    navigator.clipboard.writeText(url);
+    alert("Link copied to clipboard!");
 } 
