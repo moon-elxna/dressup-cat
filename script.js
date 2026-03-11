@@ -15,6 +15,7 @@ for(let i = 0; i < showcase.length; i++){
             .addEventListener("click", function(){showcase_arrow_btns(i, j)});
     }
 }
+document.getElementById("save").addEventListener("click", function(){save()});
 
 //---functions---
 function load_game(){
@@ -134,6 +135,22 @@ function load_img(index, arrow){
     }
 }
 
-function save(){}
+function save(){
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024; canvas.height = canvas.width;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#FFFCF8";
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    const body = document.getElementById("body");
+    ctx.drawImage(body, 0, 0);
+    for(let i = 0; i < showcase.length; i++){
+        const img = document.getElementById(showcase[i].name);
+        ctx.drawImage(img, 0, 0);
+    }
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "dress-up_cat.png"
+    link.click();
+}
 
-function share(){}
+function share(){} 
