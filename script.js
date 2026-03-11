@@ -1,8 +1,8 @@
 //---main---
 const showcase = [
-    {name: "accessories",   min: 0, max: 2, current: []}, 
-    {name: "top",           min: 0, max: 3, current: []}, 
-    {name: "bottom",        min: 0, max: 3, current: []}, 
+    {name: "accessories",   min: 0, max: 2, current: [], current_item: null}, 
+    {name: "top",           min: 0, max: 3, current: [], current_item: null}, 
+    {name: "bottom",        min: 0, max: 3, current: [], current_item: null}, 
 ]
 const arrow = ["right", "left"];
 const amount_showcase = 3;
@@ -23,14 +23,14 @@ function load_game(){
     for(let i = 0; i < showcase.length; i++){
         const name = showcase[i].name;
         //dressup images
-        let source = localStorage.getItem(name);
-        if(source != null){
-            document.getElementById(name).src = source;
+        let element_number = localStorage.getItem(name);
+        if(element_number != null){
+            document.getElementById(name).src = "assets/dressup/" + name + String(element_number) + ".PNG";
         }   
         else{
             source = "assets/dressup/" + name + "0.PNG"
             document.getElementById(name).src = source;
-            localStorage.setItem(name, source);
+            localStorage.setItem(name, 0);
         }
         //showcase images
         const array = JSON.parse(localStorage.getItem(name + ".current"))
@@ -128,8 +128,9 @@ function load_img(index, arrow){
             btn.addEventListener("click", function(){ 
                 //change img in dressup
                 const source = "assets/dressup/" + name + String(element_number) + ".PNG";
+                showcase[i].current_item = element_number;
                 document.getElementById(name).src = source;
-                localStorage.setItem(name, source);
+                localStorage.setItem(name, element_number);
             });
         }
     }
@@ -153,4 +154,9 @@ function save(){
     link.click();
 }
 
-function share(){} 
+function share(){
+    let url = "https://moon-elxna.github.io/dressup-cat/"
+        + "?top=" +
+        + "&bottom=" +
+        + "&accessoires=" 
+} 
