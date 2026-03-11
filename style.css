@@ -1,57 +1,55 @@
-/*---font---*/
-
-/*--div---*/
-body{
-    background-color: red;
+@font-face {
+    font-family: pixellari;
+    src: url("https://moon-elxna.github.io/build-ur-flower/assets/font/Pixellari.ttf");
 }
+
+body{
+    font-family: "pixellari";
+}
+
+button {
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+#header p{
+    font-size: 32px;
+    margin: 16px;
+}
+
 #content{
     display: flex;
     justify-content: center;
     align-items: center;   
-    background-color: aqua;
     padding: 24px;
+    gap: 24px;
 }
 
+#content > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 #dressup{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: blueviolet;
-    padding: 24px;
-
 }
 
-#container{
+#dressup > div{
     position: relative;
-    background-color: brown;
     width: 384px;
-    height: 384px;
+    height: 384px;  
 }
-
-.showcase{
-    display: flex;
-    flex-direction: row;
-}
-
-.showcase_img{
-    display: flex;
-    flex-direction: row;
-}
-/*---img---*/
-img.showcase_clothes{
-    width: 120px;
-
-}
-button.showcase_clothes{
-    width: fit-content ;
-    height: fit-content;
-
-}
-.dressup{
+#dressup img{
     position: absolute;
     width: 384px;
     height: auto;
 }
+
 #accessories {
     z-index: 40;
 }
@@ -67,12 +65,37 @@ button.showcase_clothes{
 #body{
     z-index: 10;
 }
-/*---btn---*/
-button {
-    height: 50px;
+
+#clothes p {
+    font-size: 24px;
 }
 
-/*---media---*/
-@media(max-width: 700px){
+.showcase{
+    display: flex;
+    flex-direction: row;
+}
+
+.showcase_img{
+    display: flex;
+    flex-direction: row;
+}
+
+.arrow{
+    width: 48px;
+}
+
+img.showcase_clothes{
+    width: 120px;
+}
+button.showcase_clothes{
+    width: fit-content ;
+    height: fit-content;
+}
+
+@media(max-width: 1100px){
+    #content{
+        flex-direction: column;
+        gap: 12px;
+    }
     
 }

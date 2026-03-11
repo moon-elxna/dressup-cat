@@ -6,26 +6,63 @@ const showcase = [
 ]
 const arrow = ["right", "left"];
 const amount_showcase = 3;
-load_showcase_img();
+load_game();
 
 //all btns of showcase
 for(let i = 0; i < showcase.length; i++){
     for(let j = 0; j < arrow.length; j++){
         document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
-            .addEventListener("click", function(){showcase_elements_arrow_buttons(i, j)});
+            .addEventListener("click", function(){showcase_arrow_btns(i, j)});
     }
 }
 
 //---functions---
-function load_showcase_img(){
-    read_localstorage();
-    //loads images for each element by loop through array and calling function
+function load_game(){
+    //read local storage or set standart values
+    for(let i = 0; i < showcase.length; i++){
+        const name = showcase[i].name;
+        //dressup images
+        let source = localStorage.getItem(name);
+        if(source != null){
+            document.getElementById(name).src = source;
+        }   
+        else{
+            source = "assets/dressup/" + name + "0.PNG"
+            document.getElementById(name).src = source;
+            localStorage.setItem(name, source);
+        }
+        //showcase images
+        const array = JSON.parse(localStorage.getItem(name + ".current"))
+        if(array != null){
+            showcase[i].current = array;
+        }
+        else{
+            for(let j = 0; j < amount_showcase; j++){
+                showcase[i].current.push(showcase[i].min + j);
+            }
+        }
+    }
+
+    //loads images for each showcase-element by loop through array and calling function
     for(let i = 0; i < showcase.length; i++){
         load_img(i, 0);
     }
+
+    //set images for arrows
+    for(let i = 0; i < showcase.length; i++){
+        for(let j = 0; j < arrow.length; j++){
+            const btn = document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
+            const img = document.createElement("img");
+            img.alt = "arrow_" +arrow[j];
+            img.className = "arrow"
+            img.src = "assets/" + arrow[j] +"_arr.PNG";
+            btn.append(img);
+        }
+        
+    }
 }
 
-function showcase_elements_arrow_buttons(index, arrow){
+function showcase_arrow_btns(index, arrow){
     //create local var from array
     const name = showcase[index].name;
     const min = showcase[index].min;
@@ -87,39 +124,16 @@ function load_img(index, arrow){
                 btn.prepend(img); div.prepend(btn);
             }   
             //Eventlistener
-            btn.addEventListener("click", function(){change_img(name, element_number)});
+            btn.addEventListener("click", function(){ 
+                //change img in dressup
+                const source = "assets/dressup/" + name + String(element_number) + ".PNG";
+                document.getElementById(name).src = source;
+                localStorage.setItem(name, source);
+            });
         }
     }
 }
 
-function change_img(name, index){
-    const source = "assets/dressup/" + name + String(index) + ".PNG";
-    document.getElementById(name).src = source;
-    localStorage.setItem(name, source);
-}
+function save(){}
 
-function read_localstorage(){
-    for(let i = 0; i < showcase.length; i++){
-        const name = showcase[i].name;
-        //dressup images
-        let source = localStorage.getItem(name);
-        if(source != null){
-            document.getElementById(name).src = source;
-        }   
-        else{
-            source = "assets/dressup/" + name + "0.PNG"
-            document.getElementById(name).src = source;
-            localStorage.setItem(name, source);
-        }
-        //showcase images
-        const array = JSON.parse(localStorage.getItem(name + ".current"))
-        if(array != null){
-            showcase[i].current = array;
-        }
-        else{
-            for(let j = 0; j < amount_showcase; j++){
-                showcase[i].current.push(showcase[i].min + j);
-            }
-        }
-    }
-}
+function share(){}
