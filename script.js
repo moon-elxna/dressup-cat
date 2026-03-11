@@ -16,7 +16,7 @@ for(let i = 0; i < showcase.length; i++){
     }
 }
 document.getElementById("save").addEventListener("click", function(){save()});
-document.getElementById("share").addEventListener("click", function(){share()});
+//document.getElementById("share").addEventListener("click", function(){share()});
 
 //---functions---
 function load_game(){
@@ -156,6 +156,7 @@ function save(){
     link.click();
 }
 
+/*
 function share(){
     let url = "https://moon-elxna.github.io/dressup-cat/";
     //add parameters to link, "?parameter=value&parameter=value ..."
@@ -167,3 +168,4 @@ function share(){
     navigator.clipboard.writeText(url);
     alert("Link copied to clipboard!");
 } 
+*/
