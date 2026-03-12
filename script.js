@@ -22,59 +22,49 @@ for(let i = 0; i < showcase.length; i++){
 //---functions---
 function load_game(){
     check_localstorage_expiry();
-    read_localstorage();
-    set_arrow_img();
 
-    //loads images for each showcase-element by loop through array and calling function
+    //read local storage or set standart values
     for(let i = 0; i < showcase.length; i++){
+        const name = showcase[i].name;
+        //dressup images
+        let number = localStorage.getItem(name);
+        if(number != null){
+            showcase[i].current_item = number;
+            document.getElementById(name).src = "assets/dressup/" + name + String(number) + ".PNG";
+        }   
+        else{
+            document.getElementById(name).src = "assets/dressup/" + name + "0.PNG";
+            showcase[i].current_item = 0;
+            localStorage.setItem(name, 0);
+        }
+        
+        //showcase images
+        const array = JSON.parse(localStorage.getItem(name + "_current"))
+        if(array != null){
+            showcase[i].current = array;
+        }
+        else{
+            for(let j = 0; j < amount_showcase; j++){
+               showcase[i].current.push(showcase[i].min + j);
+            }
+        }
         load_img(i, 0);
-    } 
 
-    function read_localstorage(){
-        //read local storage or set standart values
-        for(let i = 0; i < showcase.length; i++){
-            const name = showcase[i].name;
-            //dressup images
-            let number = localStorage.getItem(name);
-            if(number != null){
-                showcase[i].current_item = number;
-                document.getElementById(name).src = "assets/dressup/" + name + String(number) + ".PNG";
-            }   
-            else{
-                document.getElementById(name).src = "assets/dressup/" + name + "0.PNG";
-                showcase[i].current_item = 0;
-                localStorage.setItem(name, 0);
-            }
-            //showcase images
-            const array = JSON.parse(localStorage.getItem(name + "_current"))
-            if(array != null){
-                showcase[i].current = array;
-            }
-            else{
-                for(let j = 0; j < amount_showcase; j++){
-                    showcase[i].current.push(showcase[i].min + j);
-                }
-            }
-            //selected btns in showcase
-            
-            console.log("btn_" + name + String(showcase[i].current_item))
+        //set images for arrows
+        for(let j = 0; j < arrow.length; j++){
+            const btn = document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
+            const img = document.createElement("img");
+            img.alt = "arrow_" +arrow[j];
+            img.className = "arrow"
+            img.src = "assets/" + arrow[j] +"_arr.PNG";
+            btn.append(img);
+        }
+
+        //selected btns in showcase
+        if(document.getElementById("btn_" + name + String(showcase[i].current_item)) != null){
+            document.getElementById("btn_" + name + String(showcase[i].current_item)).classList.add("selected");
         }
     }
-    
-    function set_arrow_img(){
-        //set images for arrows
-        for(let i = 0; i < showcase.length; i++){
-            for(let j = 0; j < arrow.length; j++){
-                const btn = document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
-                const img = document.createElement("img");
-                img.alt = "arrow_" +arrow[j];
-                img.className = "arrow"
-                img.src = "assets/" + arrow[j] +"_arr.PNG";
-                btn.append(img);
-            }
-            
-        }
-    } 
 }
 
 function check_localstorage_expiry(){
@@ -138,6 +128,9 @@ function load_img(index, arrow){
             //create and append btn w image
             const btn = document.createElement("button");
             btn.id = "btn_" + name + number; btn.classList.add("showcase_clothes","btn_" + name );
+            if(number === showcase[i].current_item){
+                btn.classList.add("selected");
+            }
             const img = document.createElement("img");
             img.src = "assets/showcase/" + name + number + ".PNG"; img.alt = name;
             img.id = name + number; img.className = "showcase_clothes";
