@@ -1,4 +1,5 @@
 //---main---
+setInterval(function () {localStorage.setItem("timestamp", Date.now())}, 60000); //60000ms = 1min
 const showcase = [
     {name: "accessories",   min: 0, max: 2, current: [], current_item: null}, 
     {name: "top",           min: 0, max: 3, current: [], current_item: null}, 
@@ -20,6 +21,7 @@ document.getElementById("save").addEventListener("click", function(){save()});
 
 //---functions---
 function load_game(){
+    check_localstorage_expiry();
     //read local storage or set standart values
     for(let i = 0; i < showcase.length; i++){
         const name = showcase[i].name;
@@ -154,6 +156,15 @@ function save(){
     link.href = canvas.toDataURL("image/png");
     link.download = "dress-up_cat.png"
     link.click();
+}
+
+function check_localstorage_expiry(){
+    const timestamp = localStorage.getItem("timestamp");
+    if(timestamp != null){
+        if(parseInt(timestamp) + 3600000 < Date.now()){ //3600000ms = 1h
+            localStorage.clear();
+        }
+    }
 }
 
 /*
