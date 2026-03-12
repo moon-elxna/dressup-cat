@@ -55,6 +55,9 @@ function load_game(){
                     showcase[i].current.push(showcase[i].min + j);
                 }
             }
+            //selected btns in showcase
+            
+            console.log("btn_" + name + String(showcase[i].current_item))
         }
     }
     
@@ -134,7 +137,7 @@ function load_img(index, arrow){
         if(document.getElementById(name + number) === null){ 
             //create and append btn w image
             const btn = document.createElement("button");
-            btn.id = "btn_" + name + number; btn.className = "showcase_clothes";
+            btn.id = "btn_" + name + number; btn.classList.add("showcase_clothes","btn_" + name );
             const img = document.createElement("img");
             img.src = "assets/showcase/" + name + number + ".PNG"; img.alt = name;
             img.id = name + number; img.className = "showcase_clothes";
@@ -151,6 +154,12 @@ function load_img(index, arrow){
                 showcase[i].current_item = number;
                 document.getElementById(name).src = source;
                 localStorage.setItem(name, number);
+                //add selected btns class for css styling later
+                const btns = document.getElementsByClassName("btn_" + name);
+                for(let i = 0; i < btns.length; i++){
+                    btns[i].classList.remove("selected");
+                }
+                document.getElementById("btn_" + name + number).classList.add("selected");
             });
         }
     }
