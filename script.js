@@ -49,7 +49,6 @@ function load_game(){
             }
         }
         load_img(i, 0);
-        
 
         //set images for arrows
         for(let j = 0; j < arrow.length; j++){
@@ -62,7 +61,11 @@ function load_game(){
             btn.append(img);
         }
 
-        
+        //selected btns in showcase
+        if(document.getElementById("btn_" + name + String(showcase[i].current_item)) != null){
+            document.getElementById("btn_" + name + String(showcase[i].current_item)).classList.add("selected");
+            console.log("btn_" + name + String(showcase[i].current_item) + "-button got selcted form load game function");
+        }
     }
 }
 
@@ -129,6 +132,8 @@ function load_img(index, arrow){
             btn.id = "btn_" + name + number; btn.classList.add("showcase_clothes","btn_" + name );
             if(number === showcase[i].current_item){
                 btn.classList.add("selected");
+                console.log("btn_" + name + number + "button got selcted form load img function");
+                
             }
             const img = document.createElement("img");
             img.src = "assets/showcase/" + name + number + ".PNG"; img.alt = name;
@@ -152,6 +157,7 @@ function load_img(index, arrow){
                     btns[i].classList.remove("selected");
                 }
                 document.getElementById("btn_" + name + number).classList.add("selected");
+                console.log("btn_" + name + number + "-button got selcted form load img function- eventlist");
             });
         }
     }
