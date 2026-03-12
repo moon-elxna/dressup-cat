@@ -37,7 +37,7 @@ function load_game(){
             showcase[i].current_item = 0;
             localStorage.setItem(name, 0);
         }
-        
+
         //showcase images
         const array = JSON.parse(localStorage.getItem(name + "_current"))
         if(array != null){
@@ -49,10 +49,12 @@ function load_game(){
             }
         }
         load_img(i, 0);
+        
 
         //set images for arrows
         for(let j = 0; j < arrow.length; j++){
             const btn = document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
+            btn.className = "arrow";
             const img = document.createElement("img");
             img.alt = "arrow_" +arrow[j];
             img.className = "arrow"
@@ -60,10 +62,7 @@ function load_game(){
             btn.append(img);
         }
 
-        //selected btns in showcase
-        if(document.getElementById("btn_" + name + String(showcase[i].current_item)) != null){
-            document.getElementById("btn_" + name + String(showcase[i].current_item)).classList.add("selected");
-        }
+        
     }
 }
 

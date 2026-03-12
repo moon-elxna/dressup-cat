@@ -26,17 +26,15 @@ button {
 }
 
 button:hover {
-    background-color: rgba(166, 166, 166, 0.527);
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 button:active {
-    background-color: rgba(0, 0, 0, 0.242);
+    background-color: rgba(0, 0, 0, 0.221);
 }
 
 button.selected {
-    transform: scale(1.05);
-    background-color: rgba(0, 0, 0, 0.242);
+    background-color: rgba(0, 0, 0, 0.098);
 }
 
 
@@ -88,8 +86,10 @@ hr {
     height: 384px;  
 }
 
-#tools button {
-
+#tools > button {
+    background-color: #8cbde3ff;
+    margin: 0px;
+    padding: 0px;
 }
 
 .showcase_img{
