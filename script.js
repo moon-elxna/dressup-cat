@@ -9,6 +9,8 @@ const arrow = ["right", "left"];
 const amount_showcase = 3;
 load_game();
 
+document.getElementById("save").addEventListener("click", function(){save()});
+document.getElementById("share").addEventListener("click", function(){share()});
 //all btns of showcase
 for(let i = 0; i < showcase.length; i++){
     for(let j = 0; j < arrow.length; j++){
@@ -16,56 +18,70 @@ for(let i = 0; i < showcase.length; i++){
             .addEventListener("click", function(){showcase_arrow_btns(i, j)});
     }
 }
-document.getElementById("save").addEventListener("click", function(){save()});
-//document.getElementById("share").addEventListener("click", function(){share()});
 
 //---functions---
 function load_game(){
     check_localstorage_expiry();
-    //read local storage or set standart values
-    for(let i = 0; i < showcase.length; i++){
-        const name = showcase[i].name;
-        //dressup images
-        let element_number = localStorage.getItem(name);
-        if(element_number != null){
-            showcase[i].current_item = element_number;
-            document.getElementById(name).src = "assets/dressup/" + name + String(element_number) + ".PNG";
-        }   
-        else{
-            document.getElementById(name).src = "assets/dressup/" + name + "0.PNG";
-            showcase[i].current_item = 0;
-            localStorage.setItem(name, 0);
-        }
-        //showcase images
-        const array = JSON.parse(localStorage.getItem(name + "_current"))
-        if(array != null){
-            showcase[i].current = array;
-        }
-        else{
-            for(let j = 0; j < amount_showcase; j++){
-                showcase[i].current.push(showcase[i].min + j);
-            }
-        }
-    }
+    read_localstorage();
+    set_arrow_img();
 
     //loads images for each showcase-element by loop through array and calling function
     for(let i = 0; i < showcase.length; i++){
         load_img(i, 0);
-    }
+    } 
 
-    //set images for arrows
-    for(let i = 0; i < showcase.length; i++){
-        for(let j = 0; j < arrow.length; j++){
-            const btn = document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
-            const img = document.createElement("img");
-            img.alt = "arrow_" +arrow[j];
-            img.className = "arrow"
-            img.src = "assets/" + arrow[j] +"_arr.PNG";
-            btn.append(img);
+    function read_localstorage(){
+        //read local storage or set standart values
+        for(let i = 0; i < showcase.length; i++){
+            const name = showcase[i].name;
+            //dressup images
+            let number = localStorage.getItem(name);
+            if(number != null){
+                showcase[i].current_item = number;
+                document.getElementById(name).src = "assets/dressup/" + name + String(number) + ".PNG";
+            }   
+            else{
+                document.getElementById(name).src = "assets/dressup/" + name + "0.PNG";
+                showcase[i].current_item = 0;
+                localStorage.setItem(name, 0);
+            }
+            //showcase images
+            const array = JSON.parse(localStorage.getItem(name + "_current"))
+            if(array != null){
+                showcase[i].current = array;
+            }
+            else{
+                for(let j = 0; j < amount_showcase; j++){
+                    showcase[i].current.push(showcase[i].min + j);
+                }
+            }
         }
-        
     }
+    
+    function set_arrow_img(){
+        //set images for arrows
+        for(let i = 0; i < showcase.length; i++){
+            for(let j = 0; j < arrow.length; j++){
+                const btn = document.getElementById("showcase_btn_" + arrow[j] + "_" + showcase[i].name)
+                const img = document.createElement("img");
+                img.alt = "arrow_" +arrow[j];
+                img.className = "arrow"
+                img.src = "assets/" + arrow[j] +"_arr.PNG";
+                btn.append(img);
+            }
+            
+        }
+    } 
 }
+
+function check_localstorage_expiry(){
+    const timestamp = localStorage.getItem("timestamp");
+    if(timestamp != null){
+        if(parseInt(timestamp) + 3600000 < Date.now()){ //3600000ms = 1h
+                localStorage.clear();
+        }
+    }
+} 
 
 function showcase_arrow_btns(index, arrow){
     //create local var from array
@@ -113,15 +129,15 @@ function load_img(index, arrow){
     const div = document.getElementById("showcase_img_" + name);
     //loop through 3 images of an element
     for(let i = 0; i < amount_showcase; i++){
-        const element_number = String(current[i]);
+        const number = String(current[i]);
         //check if img does not exist, then add the image
-        if(document.getElementById(name + element_number) === null){ 
+        if(document.getElementById(name + number) === null){ 
             //create and append btn w image
             const btn = document.createElement("button");
-            btn.id = "btn_" + name + element_number; btn.className = "showcase_clothes";
+            btn.id = "btn_" + name + number; btn.className = "showcase_clothes";
             const img = document.createElement("img");
-            img.src = "assets/showcase/" + name + element_number + ".PNG"; img.alt = name;
-            img.id = name + element_number; img.className = "showcase_clothes";
+            img.src = "assets/showcase/" + name + number + ".PNG"; img.alt = name;
+            img.id = name + number; img.className = "showcase_clothes";
             if(arrow === 0){
                 btn.append(img); div.append(btn);
             }
@@ -131,10 +147,10 @@ function load_img(index, arrow){
             //Eventlistener
             btn.addEventListener("click", function(){ 
                 //change img in dressup
-                const source = "assets/dressup/" + name + String(element_number) + ".PNG";
-                showcase[i].current_item = element_number;
+                const source = "assets/dressup/" + name + String(number) + ".PNG";
+                showcase[i].current_item = number;
                 document.getElementById(name).src = source;
-                localStorage.setItem(name, element_number);
+                localStorage.setItem(name, number);
             });
         }
     }
@@ -158,25 +174,16 @@ function save(){
     link.click();
 }
 
-function check_localstorage_expiry(){
-    const timestamp = localStorage.getItem("timestamp");
-    if(timestamp != null){
-        if(parseInt(timestamp) + 3600000 < Date.now()){ //3600000ms = 1h
-            localStorage.clear();
-        }
-    }
-}
-
-/*
 function share(){
     let url = "https://moon-elxna.github.io/dressup-cat/";
-    //add parameters to link, "?parameter=value&parameter=value ..."
-    for(let i = 0; i < showcase.length; i++){
-        let sign = "&"
-        if(i == 0){sign = "?";}
-        url = url + sign + showcase[i].name + "=" + showcase[i].current_item;
-    }
+    /*
+        //add parameters to link, "?parameter=value&parameter=value ..."
+        for(let i = 0; i < showcase.length; i++){
+            let sign = "&"
+            if(i == 0){sign = "?";}
+            url = url + sign + showcase[i].name + "=" + showcase[i].current_item;
+        }
+    */
     navigator.clipboard.writeText(url);
     alert("Link copied to clipboard!");
 } 
-*/
